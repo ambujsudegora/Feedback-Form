@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #9b59b6;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        .feedback {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-container {
+            width: 45%;
+            float: left;
+            padding: 20px;
+        }
+
+        .form-container h2 {
+            color: #9b59b6;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        form input[type="text"],
+        form textarea,
+        form select {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #9b59b6;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #8e44ad;
+        }
+
+        .comment-container {
+            width: 45%;
+            float: right;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 1px solid #ccc;
+        }
+
+        .comment-container h2 {
+            color: #555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #9b59b6;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Delete button style */
+        .delete-btn {
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Feedback Form</h1>
+    </header>
+    <div class="feedback">
+        <div class="form-container">
+            <h2>Give Your Feedback</h2>
+            <form id="feedbackForm">
+                <label for="res">Title:</label>
+                <select id="res">
+                    <option value="">--SELECT OPTION--</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Mrs.">Mrs.</option>
+                </select>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name">
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name">
+                <label for="comment">Comment:</label>
+                <textarea id="comment" rows="4"></textarea>
+                <label>Gender:</label>
+                <div>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label>
+                </div>
+                <div>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label>
+                </div>
+                <button type="button" onclick="sub_data()">Submit</button>
+            </form>
+        </div>
+        <div class="comment-container">
+            <h2>Comments</h2>
+            <table id="commentTable">
+                <thead>
+                    <th>Sr.</th>
+                    <th>Name</th>
+                    <th>Comment</th>
+                    <th>Action</th>
+                </thead>
+                <tbody id="commentBody">
+                    <tr>
+                        <td>1</td>
+                        <td>Mr. Ambuj Kumar Rai</td>
+                        <td>"Change the world by being yourself"</td>
+                        <td><button class="delete-btn" onclick="deleteRow(this)">Delete</button></td>
+                    </tr>
+                     
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        var id = 2; // Starting id for comments
+
+        function displayComments() {
+             
+            var commentBody = document.getElementById("commentBody");
+
+            comments.forEach(function (item, index) {
+                var row = commentBody.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = id + index;
+                cell2.innerHTML = item.name;
+                cell3.innerHTML = item.comment;
+                cell4.innerHTML = '<button class="delete-btn" onclick="deleteRow(this)">Delete</button>';
+            });
+        }
+
+       
+        displayComments();
+
+        function sub_data() {
+            var comment = document.getElementById('comment').value;
+            var res = document.getElementById("res").value;
+            var first_name = document.getElementById("first_name").value;
+            var last_name = document.getElementById("last_name").value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+
+            if (comment == "" || res == "" || first_name == "" || last_name == "" || !gender) {
+                alert("Please Fill Mandatory Fields");
+            } else {
+                var table = document.getElementById("commentTable");
+                var row = table.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = id;
+                cell2.innerHTML = res + "&nbsp;" + first_name + "&nbsp;" + last_name;
+                cell3.innerHTML = comment;
+                cell4.innerHTML = '<button class="delete-btn" onclick="deleteRow(this)">Delete</button>';
+                id = id + 1;
+                alert("Record Inserted Successfully");
+                document.getElementById('comment').value = "";
+                document.getElementById("res").value = "";
+                document.getElementById("first_name").value = "";
+                document.getElementById("last_name").value = "";
+                document.querySelector('input[name="gender"]:checked').checked = false;
+            }
+        }
+
+        function deleteRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+</body>
+</html>
